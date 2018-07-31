@@ -60,7 +60,9 @@ Get in contact with the developer on Twitter: [@FastlaneTools](https://twitter.c
 
 # Installation
 
-    sudo gem install watchbuild
+Using a Gemfile
+
+    gem 'watchbuild', git: 'https://github.com/alihen/watchbuild.git'
 
 Make sure, you have the latest version of the Xcode command line tools installed:
 
@@ -68,15 +70,15 @@ Make sure, you have the latest version of the Xcode command line tools installed
 
 # Usage
 
-    watchbuild
+    bundle exec watchbuild
 
 You can pass your bundle identifier and username, and slack webhook URL like this:
 
-    watchbuild -a com.krausefx.app -u felix@krausefx.com -n https://hooks.slack.com/services/<your-webhook>
+    bundle exec watchbuild -a com.krausefx.app -u felix@krausefx.com -n https://hooks.slack.com/services/<your-webhook>
 
 For a list of available parameters and commands run
 
-    watchbuild --help
+    bundle exec watchbuild --help
 
 <img src=".assets/terminal.png">
 

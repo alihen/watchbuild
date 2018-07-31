@@ -15,6 +15,7 @@ module WatchBuild
 
       ENV['FASTLANE_ITC_TEAM_ID'] = WatchBuild.config[:itc_team_id] if WatchBuild.config[:itc_team_id]
       ENV['FASTLANE_ITC_TEAM_NAME'] = WatchBuild.config[:itc_team_name] if WatchBuild.config[:itc_team_name]
+      ENV['SLACK_URL'] = WatchBuild.config[:slack_url]
 
       Spaceship::Tunes.login(WatchBuild.config[:username], nil)
       Spaceship::Tunes.select_team
@@ -59,7 +60,9 @@ module WatchBuild
     end
 
     def notification(build, minutes)
-      require 'terminal-notifier'
+      require 'net/http'
+      require 'uri'
+      require 'json'
 
       if build.nil?
         UI.message 'Application build is still processing'
@@ -67,10 +70,24 @@ module WatchBuild
       end
 
       url = "https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/#{@app.apple_id}/activity/ios/builds/#{build.train_version}/#{build.build_version}/details"
-      TerminalNotifier.notify('Build finished processing',
-                              title: build.app_name,
-                              subtitle: "#{build.train_version} (#{build.build_version})",
-                              execute: "open '#{url}'")
+
+      if ENV['SLACK_URL']
+        slack_url = uri = URI.parse(ENV['SLACK_URL'])
+        slack_message = {
+          "text": "App Store build #{build.train_version} (#{build.build_version}) has finished processing in #{minutes} minutes"
+        }
+
+        header = {'Content-Type': 'application/json'}
+  
+        http = Net::HTTP.new(slack_url.host, slack_url.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        request = Net::HTTP::Post.new(slack_url.request_uri, header)
+        request.body = slack_message.to_json
+        response = http.request(request)
+      end
+      
+      UI.message(response)
 
       UI.success('Successfully finished processing the build')
       if minutes > 0 # it's 0 minutes if there was no new build uploaded

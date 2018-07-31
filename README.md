@@ -23,7 +23,7 @@
 
 -------
 
-WatchBuild
+WatchBuild (with Slack webhook support)
 ============
 
 [![Twitter: @FastlaneTools](https://img.shields.io/badge/contact-@FastlaneTools-blue.svg?style=flat)](https://twitter.com/FastlaneTools)
@@ -40,7 +40,7 @@ As the [#iosprocessingtime](https://twitter.com/search?q=%23iosprocessingtime) v
 
 WatchBuild is a simple standalone tool that shows a notification once your newly uploaded build was successfully processed by iTunes Connect.
 
-Once the build is ready to be pushed to TestFlight or for review, you get a macOS notification. You can even directly click on the notification to open the build on iTunes Connect.
+Once the build is ready to be pushed to TestFlight or for review, you can receive a Slack Notification via Webhook, this is ideal for CI environments.
 
 ### Why use WatchBuild?
 
@@ -72,9 +72,9 @@ Make sure, you have the latest version of the Xcode command line tools installed
 
     watchbuild
 
-You can pass your bundle identifier and username like this:
+You can pass your bundle identifier and username, and slack webhook URL like this:
 
-    watchbuild -a com.krausefx.app -u felix@krausefx.com
+    watchbuild -a com.krausefx.app -u felix@krausefx.com -n https://hooks.slack.com/services/<your-webhook>
 
 For a list of available parameters and commands run
 

@@ -30,9 +30,7 @@ WatchBuild (with Slack webhook support)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/fastlane/watchbuild/blob/master/LICENSE)
 [![Gem](https://img.shields.io/gem/v/watchbuild.svg?style=flat)](http://rubygems.org/gems/watchbuild)
 
-###### Get a notification once your iTunes Connect build is finished processing
-
-<img src=".assets/screenshot.png" width=350>
+###### Get a Slack notification once your iTunes Connect build is finished processing
 
 When you upload a new binary from Xcode to iTunes Connect, you have to wait until it's done processing before you can submit it to the App Store.
 
